@@ -2,9 +2,7 @@ import pandas as pd
 import numpy as np
 
 col_names = ['created_date', 'latitude', 'longitude']
-df = pd.read_csv('marco.csv', names=col_names, sep=',', skiprows=1)
-
-
+df = pd.read_csv('dataset.csv', names=col_names, sep=',', skiprows=1)
 
 def haversine(lon1, lat1, lon2, lat2):
     # convert degrees to radians
@@ -31,6 +29,4 @@ m = m[m.index_x != m.index_y].drop(columns = ['index_x', 'index_y'])
 m['Distance'] = haversine(m.longitude_x, m.latitude_x, m.longitude_y, m.latitude_y)
 grouped = m.groupby('created_date').Distance.mean()
 total = pd.to_datetime(m.iloc[:, 0]).dt.normalize().nunique()
-print(total)
-print(grouped)
 

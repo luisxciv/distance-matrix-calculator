@@ -43,7 +43,7 @@ cursor3 = rdsConn.cursor()
 sql = "select distinct mobile_user_id from score where speed_range_id > 1"
 speed_query = "select speed_range_id, count(speed_range_id) from score where mobile_user_id = %(mobile_user_id)s and speed_range_id in (2, 9, 10, 11, 12 ,13) group by speed_range_id"
 distance_query = """SELECT created_date, latitude, longitude FROM score s where s.mobile_user_id = %(mobile_user_id)s and speed_range_id > 1 group by latitude, longitude order by id asc"""
-
+insert_query = "Update mobile_user set average_speed, average_distance, average_time "
 #col_names = ['created_date', 'latitude', 'longitude']
 
 cursor1.execute(sql)

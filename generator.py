@@ -15,7 +15,7 @@ class Colour:
    END = '\033[0m'
 
 def haversine(lon1, lat1, lon2, lat2):
-    #  conver degrees to radians
+    #  convert degrees to radians
     lon1 = np.deg2rad(lon1)
     lat1 = np.deg2rad(lat1)
     lon2 = np.deg2rad(lon2)
@@ -30,7 +30,7 @@ def haversine(lon1, lat1, lon2, lat2):
     return c * r_e
 
 rdsConn = pymysql.connect(host = '127.0.0.1',
-                          db = 'napify',
+                          db = 'napify2',
                           user = 'root',
                           password = '',
                           charset = 'utf8mb4',
@@ -43,10 +43,10 @@ cursor2 = rdsConn.cursor()
 cursor3 = rdsConn.cursor()
 cursor4 = rdsConn.cursor()
 
-#sql = "select distinct mobile_user_id from score where speed_range_id > 1"
-#speed_query = "select speed_range_id, count(speed_range_id) from score where mobile_user_id = %(mobile_user_id)s and speed_range_id in (2, 9, 10, 11, 12 ,13) group by speed_range_id"
-#distance_query = """SELECT created_date, latitude, longitude FROM score s where s.mobile_user_id = %(mobile_user_id)s and speed_range_id > 1 group by latitude, longitude order by id asc"""
-#insert_query = "Update mobile_user set avg_speed=%s, avg_distance=%s, avg_time=%s where mobile_user_id = %(mobile_user_id)s "
+sql = "select distinct mobile_user_id from score where speed_range_id > 1"
+speed_query = "select speed_range_id, count(speed_range_id) from score where mobile_user_id = %(mobile_user_id)s and speed_range_id in (2, 9, 10, 11, 12 ,13) group by speed_range_id"
+distance_query = """SELECT created_date, latitude, longitude FROM score s where s.mobile_user_id = %(mobile_user_id)s and speed_range_id > 1 group by latitude, longitude order by id asc"""
+insert_query = "Update mobile_user set avg_speed=%s, avg_distance=%s, avg_time=%s where mobile_user_id = %(mobile_user_id)s "
 #col_names = ['created_date', 'latitude', 'longitude']
 
 cursor1.execute(sql)
@@ -112,7 +112,10 @@ for row1 in result:
        SET avg_speed=%s, avg_distance=%s, avg_time=%s
        WHERE id=%s
     """, (avg_speed, avg_distance, avg_time, id))
-rdsConn.commit()
+
+    #commit the insert in every loop, indent back to commit at the end
+    rdsConn.commit()
+#close the connection
 rdsConn.close()
 
 

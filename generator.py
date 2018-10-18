@@ -36,14 +36,17 @@ rdsConn = pymysql.connect(host = '127.0.0.1',
                           charset = 'utf8mb4',
                           cursorclass=pymysql.cursors.DictCursor)
 
+#Initialize multiple cursors
+
 cursor1 = rdsConn.cursor()
 cursor2 = rdsConn.cursor()
 cursor3 = rdsConn.cursor()
+cursor4 = rdsConn.cursor()
 
-sql = "select distinct mobile_user_id from score where speed_range_id > 1"
-speed_query = "select speed_range_id, count(speed_range_id) from score where mobile_user_id = %(mobile_user_id)s and speed_range_id in (2, 9, 10, 11, 12 ,13) group by speed_range_id"
-distance_query = """SELECT created_date, latitude, longitude FROM score s where s.mobile_user_id = %(mobile_user_id)s and speed_range_id > 1 group by latitude, longitude order by id asc"""
-insert_query = "Update mobile_user set average_speed, average_distance, average_time "
+#sql = "select distinct mobile_user_id from score where speed_range_id > 1"
+#speed_query = "select speed_range_id, count(speed_range_id) from score where mobile_user_id = %(mobile_user_id)s and speed_range_id in (2, 9, 10, 11, 12 ,13) group by speed_range_id"
+#distance_query = """SELECT created_date, latitude, longitude FROM score s where s.mobile_user_id = %(mobile_user_id)s and speed_range_id > 1 group by latitude, longitude order by id asc"""
+#insert_query = "Update mobile_user set avg_speed=%s, avg_distance=%s, avg_time=%s where mobile_user_id = %(mobile_user_id)s "
 #col_names = ['created_date', 'latitude', 'longitude']
 
 cursor1.execute(sql)
@@ -58,7 +61,7 @@ for row1 in result:
         id_vals = {2: 25, 9: 50, 10: 75, 11: 100, 12: 150, 13: 15}
         result_sum = sum(id_vals[row['speed_range_id']] * row['count(speed_range_id)'] for row in speed_result)
         count_sum = sum(row['count(speed_range_id)'] for row in speed_result)
-        avg_speed = result_sum / count_sum
+        average_speed = result_sum / count_sum
     #if you want to read th
     #df = pd.read_csv('file.csv', names=col_names, sep=',', skiprows=1)
 
@@ -91,13 +94,26 @@ for row1 in result:
     except ZeroDivisionError:
         average_time = 0
 
-    print("ID de usuario" + Colour.RED + str(row1) + Colour.END)
+
+    id = int(row1["mobile_user_id"])
+
+    print("ID de usuario: " + Colour.RED + str(int(row1["mobile_user_id"])) + Colour.END)
     print("Distancia recorrida promedio de " + Colour.RED + str(round(average_daily, 1)) + Colour.END + " km al dia")
     print("Tiempo manejado promedio de " + Colour.RED + str(round(average_time, 1)) + Colour.END + " minutos al dia")
-    print("Velocidad promedio de " + Colour.RED + str(round(avg_speed, 1)) + Colour.END + " km por hora")
+    print("Velocidad promedio de " + Colour.RED + str(round(average_speed, 1)) + Colour.END + " km por hora")
     print(Colour.RED + "=================================================" + Colour.END)
 
+    avg_speed = int(round(average_speed, 1))
+    avg_distance = int(round(average_daily, 1))
+    avg_time = int(round(average_time, 1))
 
+    cursor4.execute("""
+       UPDATE mobile_user
+       SET avg_speed=%s, avg_distance=%s, avg_time=%s
+       WHERE id=%s
+    """, (avg_speed, avg_distance, avg_time, id))
+rdsConn.commit()
+rdsConn.close()
 
 
 

@@ -92,10 +92,10 @@ for row1 in result:
         average_time = 0
 
     print("ID de usuario" + str(row1))
-    print("Distancia recorrida promedio de " + Colour.RED + str(round(average_daily, 1)) + Colour.END + "km al dia")
+    print("Distancia recorrida promedio de " + Colour.RED + str(round(average_daily, 1)) + Colour.END + " km al dia")
     print("Tiempo manejado promedio de " + Colour.RED + str(round(average_time, 1)) + Colour.END + " minutos al dia")
     print("Velocidad promedio de " + Colour.RED + str(round(avg_speed, 1)) + Colour.END + " km por hora")
-    print(Colour.RED + "=========================================")
+    print(Colour.RED + "=========================================" + Colour.END)
 
 
 

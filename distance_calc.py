@@ -8,6 +8,7 @@ from os.path import expanduser
 class Colour:
    YELLOW = '\033[93m'
    RED = '\033[91m'
+   END = '\033[0m'
 
 
 def haversine(lon1, lat1, lon2, lat2):
@@ -25,25 +26,17 @@ def haversine(lon1, lat1, lon2, lat2):
     r_e = 6371
     return c * r_e
 
-pkeyfilepath = ''
+pkeyfilepath = '/Downloads/awskey.pem'
 home = expanduser('~')
 mypkey = paramiko.RSAKey.from_private_key_file(home + pkeyfilepath)
 
-##SSHTUNNEL
-
-#with SSHTunnelForwarder(
-#        ('', 22),
-#    ssh_username='',
-#    ssh_pkey=mypkey,
-#    remote_bind_address=('', 3306)) as tunnel:
-rdsConn = pymysql.connect(host='127.0.0.1',
-                              db='napify',
-                              user='root',
+rdsConn = pymysql.connect(host='',
+                              db='',
+                              user='',
                               password='',
                               port=3306,
                               charset='utf8mb4',
                               cursorclass=pymysql.cursors.DictCursor)
-
 
 #Initialize cursors
 
@@ -52,19 +45,17 @@ cursor3 = rdsConn.cursor()
 cursor4 = rdsConn.cursor()
 
 sql = """select distinct mobile_user_id from score 
-            where speed_range_id in (2, 9, 10, 11, 12, 13) and mobile_user_id > 516 
+            where speed_range_id in (2, 9, 10, 11, 12, 13) and created_date between '2018-10-01 12:00:00' and '2018-10-24 12:00:00' and mobile_user_id > 26607 
      order by mobile_user_id asc"""
-distance_query = """SELECT created_date, latitude, longitude FROM score s where s.mobile_user_id = %(mobile_user_id)s and speed_range_id > 1 group by latitude, longitude order by id asc"""
-insert_query = "Update mobile_user set avg_speed=%s, avg_distance=%s, avg_time=%s where mobile_user_id = %(mobile_user_id)s "
+distance_query = """SELECT created_date, latitude, longitude FROM score s where s.mobile_user_id = %(mobile_user_id)s and speed_range_id > 1 and s.created_date between '2018-10-01 12:00:00' and '2018-10-24 12:00:00' group by latitude, longitude order by id asc"""
 #col_names = ['created_date', 'latitude', 'longitude']
 
 cursor1.execute(sql)
 result = cursor1.fetchall()
 
 for row1 in result:
-    distance = cursor3.execute(distance_query, row1)
+    cursor3.execute(distance_query, row1)
     distance_result = cursor3.fetchall()
-
     df = pd.DataFrame(distance_result)
     #merge our data
     m = df.reset_index().merge(df.reset_index(), on='created_date')
@@ -90,6 +81,13 @@ for row1 in result:
     print("Recorrido un total de distancia de" + Colour.RED + str(round(total, 1)) + Colour.END + " km")
 
     print(Colour.RED + "=================================================" + Colour.END)
+
+    cursor4.execute("""
+               UPDATE mobile_user
+               SET distance_travelled=%s
+               WHERE id=%s
+            """, (total, id))
+
     rdsConn.commit()
 rdsConn.close()
 

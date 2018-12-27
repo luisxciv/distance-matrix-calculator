@@ -41,11 +41,11 @@ with SSHTunnelForwarder(
         ('ec2-18-205-61-244.compute-1.amazonaws.com', 22),
     ssh_username='ec2-user',
     ssh_pkey=mypkey,
-    remote_bind_address=('napifydb2019.cluster-c0fwawrsa2fq.us-east-1.rds.amazonaws.com', 3306)) as tunnel:
+    remote_bind_address=('', 3306)) as tunnel:
     rdsConn = pymysql.connect(host='127.0.0.1',
-                              db='napify',
-                              user='napify',
-                              password='napifydb2018',
+                              db='',
+                              user='',
+                              password='',
                               port=tunnel.local_bind_port,
                               charset='utf8mb4',
                               cursorclass=pymysql.cursors.DictCursor)
@@ -59,7 +59,7 @@ with SSHTunnelForwarder(
     cursor4 = rdsConn.cursor()
 
     sql = """select distinct mobile_user_id from score 
-            where speed_range_id in (2, 9, 10, 11, 12, 13) and mobile_user_id > 36766
+            where speed_range_id in (2, 9, 10, 11, 12, 13) and id > 314             
      order by mobile_user_id asc"""
     speed_query = "select speed_range_id, count(speed_range_id) from score where mobile_user_id = %(mobile_user_id)s and speed_range_id in (2, 9, 10, 11, 12 ,13) group by speed_range_id"
     distance_query = """SELECT created_date, latitude, longitude FROM score s where s.mobile_user_id = %(mobile_user_id)s and speed_range_id > 1 group by latitude, longitude order by id asc"""

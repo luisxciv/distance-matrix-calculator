@@ -2,9 +2,6 @@ import pandas as pd
 import numpy as np
 import paramiko
 import pymysql.cursors
-from sshtunnel import SSHTunnelForwarder
-from paramiko import SSHClient
-from os.path import expanduser
 
 class Colour:
    PURPLE = '\033[95m'
@@ -38,8 +35,8 @@ home = expanduser('~')
 mypkey = paramiko.RSAKey.from_private_key_file(home + pkeyfilepath)
 
 with SSHTunnelForwarder(
-        ('ec2-18-205-61-244.compute-1.amazonaws.com', 22),
-    ssh_username='ec2-user',
+        ('', 22),
+    ssh_username='',
     ssh_pkey=mypkey,
     remote_bind_address=('', 3306)) as tunnel:
     rdsConn = pymysql.connect(host='127.0.0.1',
@@ -49,7 +46,10 @@ with SSHTunnelForwarder(
                               port=tunnel.local_bind_port,
                               charset='utf8mb4',
                               cursorclass=pymysql.cursors.DictCursor)
-
+    desired_width = 320
+    pd.set_option('display.width', desired_width)
+    np.set_printoptions(linewidth=desired_width)
+    pd.set_option('display.max_columns', 10)
 
 #Initialize multiple cursors
 
@@ -59,7 +59,7 @@ with SSHTunnelForwarder(
     cursor4 = rdsConn.cursor()
 
     sql = """select distinct mobile_user_id from score 
-            where speed_range_id in (2, 9, 10, 11, 12, 13) and id > 314             
+            where speed_range_id in (2, 9, 10, 11, 12, 13) and mobile_user_id > 34539             
      order by mobile_user_id asc"""
     speed_query = "select speed_range_id, count(speed_range_id) from score where mobile_user_id = %(mobile_user_id)s and speed_range_id in (2, 9, 10, 11, 12 ,13) group by speed_range_id"
     distance_query = """SELECT created_date, latitude, longitude FROM score s where s.mobile_user_id = %(mobile_user_id)s and speed_range_id > 1 group by latitude, longitude order by id asc"""
@@ -79,6 +79,7 @@ with SSHTunnelForwarder(
             result_sum = sum(id_vals[row['speed_range_id']] * row['count(speed_range_id)'] for row in speed_result)
             count_sum = sum(row['count(speed_range_id)'] for row in speed_result)
             average_speed = result_sum / count_sum
+
         #if you want to read th
         #df = pd.read_csv('file.csv', names=col_names, sep=',', skiprows=1)
 
@@ -96,12 +97,14 @@ with SSHTunnelForwarder(
         #Calculate Distance
         m['Distance'] = haversine(m.longitude_x, m.latitude_x, m.longitude_y, m.latitude_y)
 
+        m.drop(m.index[m['Time'] < 0], inplace=True)
+        m.drop_duplicates(subset="Distance", keep='first', inplace=True)
+
         #Count the number if ID's
         count = df.created_date.count()
         grouped = m.groupby('created_date').Distance.mean()
         days = pd.to_datetime(m.iloc[:, 0]).dt.normalize().nunique()
         total = sum(grouped)
-
 
         try:
             average_daily = total / days

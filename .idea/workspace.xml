@@ -4,6 +4,7 @@
     <list default="true" id="c71cb8dc-1273-495c-942b-7a377a213562" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distance-time-speed.py" beforeDir="false" afterPath="$PROJECT_DIR$/distance-time-speed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distance_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/distance_calc.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,49 +14,62 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/distance_matrix_calculator$generator.coverage" NAME="generator Coverage Results" MODIFIED="1539662075207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/distance_matrix_calculator$distance_calc.coverage" NAME="distance_calc Coverage Results" MODIFIED="1545943133643" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/distance_matrix_calculator$distance_time_speed.coverage" NAME="distance-time-speed Coverage Results" MODIFIED="1545948374076" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/distance_matrix_calculator$distance_calc.coverage" NAME="distance_calc Coverage Results" MODIFIED="1547219206932" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/distance_matrix_calculator$distance_time_speed.coverage" NAME="distance-time-speed Coverage Results" MODIFIED="1547142380240" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-1128708452">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="6" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.open.time.4" value="1" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="838" />
+          <entry key="py" value="924" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="828" />
+          <entry key="Python" value="914" />
           <entry key="SQL" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="1" />
+          <entry key="py" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="1" />
+          <entry key="Python" value="3" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/distance-time-speed.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="89">
-              <caret line="46" column="38" lean-forward="true" selection-start-line="46" selection-start-column="38" selection-end-line="46" selection-end-column="38" />
+            <state relative-caret-position="-10">
+              <caret line="40" column="51" selection-start-line="40" selection-start-column="10" selection-end-line="40" selection-end-column="51" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/distance_calc.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="52" column="103" lean-forward="true" selection-start-line="51" selection-start-column="13" selection-end-line="52" selection-end-column="103" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -64,13 +78,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/distance_calc.py">
+        <entry file="file://$USER_HOME$/.conda/envs/untitled/lib/python2.7/site-packages/pymysql/connections.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-14">
-              <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="198">
+              <caret line="515" selection-start-line="515" selection-end-line="515" />
             </state>
           </provider>
         </entry>
@@ -83,8 +94,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/distance_calc.py" />
         <option value="$PROJECT_DIR$/distance-time-speed.py" />
+        <option value="$PROJECT_DIR$/distance_calc.py" />
       </list>
     </option>
   </component>
@@ -108,6 +119,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -119,7 +131,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -139,7 +150,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.distance-time-speed">
+  <component name="RunManager" selected="Python.distance_calc">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="distance-matrix-calculator" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -212,8 +223,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.distance-time-speed" />
         <item itemvalue="Python.distance_calc" />
+        <item itemvalue="Python.distance-time-speed" />
       </list>
     </recent_temporary>
   </component>
@@ -243,12 +254,12 @@
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1001221" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1013431" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28265306" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.36632654" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -286,20 +297,27 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/generator.py" />
-    <entry file="file://$PROJECT_DIR$/distance_calc.py">
+    <entry file="file://$USER_HOME$/.conda/envs/untitled/lib/python2.7/site-packages/pymysql/connections.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-14">
-          <caret line="17" column="7" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="7" />
+        <state relative-caret-position="198">
+          <caret line="515" selection-start-line="515" selection-end-line="515" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/distance-time-speed.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10">
+          <caret line="40" column="51" selection-start-line="40" selection-start-column="10" selection-end-line="40" selection-end-column="51" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/distance-time-speed.py">
+    <entry file="file://$PROJECT_DIR$/distance_calc.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="46" column="38" lean-forward="true" selection-start-line="46" selection-start-column="38" selection-end-line="46" selection-end-column="38" />
+        <state relative-caret-position="272">
+          <caret line="52" column="103" lean-forward="true" selection-start-line="51" selection-start-column="13" selection-end-line="52" selection-end-column="103" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>

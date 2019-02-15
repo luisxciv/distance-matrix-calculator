@@ -26,16 +26,20 @@ def haversine(lon1, lat1, lon2, lat2):
     r_e = 6371
     return c * r_e
 
+desired_width=320
+pd.set_option('display.width', desired_width)
+np.set_printoptions(linewidth=desired_width)
+pd.set_option('display.max_columns',10)
+
 pkeyfilepath = '/Downloads/awskey.pem'
 home = expanduser('~')
 mypkey = paramiko.RSAKey.from_private_key_file(home + pkeyfilepath)
 
-rdsConn = pymysql.connect(host='',
-                              db='',
-                              user='',
-                              password='',
-                              port=3306,
-                              charset='utf8mb4',
+rdsConn = pymysql.connect(host = '',
+                              db = '',
+                              user = '',
+                              password = '',
+                              charset = '',
                               cursorclass=pymysql.cursors.DictCursor)
 
 #Initialize cursors
@@ -45,49 +49,53 @@ cursor3 = rdsConn.cursor()
 cursor4 = rdsConn.cursor()
 
 sql = """select distinct mobile_user_id from score 
-            where speed_range_id in (2, 9, 10, 11, 12, 13) and created_date between '2018-10-01 12:00:00' and '2018-10-24 12:00:00' and mobile_user_id > 26607 
-     order by mobile_user_id asc"""
-distance_query = """SELECT created_date, latitude, longitude FROM score s where s.mobile_user_id = %(mobile_user_id)s and speed_range_id > 1 and s.created_date between '2018-10-01 12:00:00' and '2018-10-24 12:00:00' group by latitude, longitude order by id asc"""
-#col_names = ['created_date', 'latitude', 'longitude']
+                where speed_range_id in (2, 9, 10, 11, 12, 13) and created_date between '2018-06-15 12:00:00' and '2019-07-15 12:00:00'
+         order by mobile_user_id asc"""
+distance_query = """SELECT report_date, created_date, latitude, longitude FROM score s where s.mobile_user_id = %(mobile_user_id)s and speed_range_id > 1  and s.created_date between '2018-06-15 12:00:00' and '2019-07-15 12:00:00' group by latitude, longitude order by id asc"""
+    #col_names = ['created_date', 'latitude', 'longitude']
 
 cursor1.execute(sql)
 result = cursor1.fetchall()
 
 for row1 in result:
-    cursor3.execute(distance_query, row1)
-    distance_result = cursor3.fetchall()
-    df = pd.DataFrame(distance_result)
-    #merge our data
-    m = df.reset_index().merge(df.reset_index(), on='created_date')
-    m = m[m.index_x != m.index_y].drop(columns=['index_x', 'index_y'])
 
-    #change our dataset from object type to float
-    m["longitude_x"] = m.longitude_x.astype(float)
-    m["longitude_y"] = m.longitude_y.astype(float)
-    m["latitude_x"] = m.latitude_x.astype(float)
-    m["latitude_y"] = m.latitude_y.astype(float)
+        cursor3.execute(distance_query, row1)
+        distance_result = cursor3.fetchall()
+        df = pd.DataFrame(distance_result)
+        #merge our data
+        m = df.reset_index().merge(df.reset_index(), on='created_date')
+        m = m[m.index_x != m.index_y].drop(columns=['index_x', 'index_y'])
 
-        #Calculate Distance
-    m['Distance'] = haversine(m.longitude_x, m.latitude_x, m.longitude_y, m.latitude_y)
+        #change our dataset from object type to float
+        m["longitude_x"] = m.longitude_x.astype(float)
+        m["longitude_y"] = m.longitude_y.astype(float)
+        m["latitude_x"] = m.latitude_x.astype(float)
+        m["latitude_y"] = m.latitude_y.astype(float)
 
-    #Count the number if ID's
-    count = df.created_date.count()
-    grouped = m.groupby('created_date').Distance.mean()
-    days = pd.to_datetime(m.iloc[:, 0]).dt.normalize().nunique()
-    total = sum(grouped)
+            #Calculate Distance
+        m['Distance'] = haversine(m.longitude_x, m.latitude_x, m.longitude_y, m.latitude_y)
+        m.drop_duplicates(subset="Distance", keep='first', inplace=True)
 
-    id = int(row1["mobile_user_id"])
-    print("ID de usuario: " + Colour.RED + str(int(row1["mobile_user_id"])) + Colour.END)
-    print("Recorrido un total de distancia de" + Colour.RED + str(round(total, 1)) + Colour.END + " km")
+        #Count the number if ID's
+        count = df.created_date.count()
+        grouped = m.groupby('created_date').Distance.mean()
+        days = pd.to_datetime(m.iloc[:, 0]).dt.normalize().nunique()
+        total = sum(grouped)
+        if total > 200:
+            total = total/10
 
-    print(Colour.RED + "=================================================" + Colour.END)
+        id = int(row1["mobile_user_id"])
+        print("ID de usuario: " + Colour.RED + str(int(row1["mobile_user_id"])) + Colour.END)
+        print("Recorrido un total de distancia de" + Colour.RED + str(round(total, 1)) + Colour.END + " km")
 
-    cursor4.execute("""
-               UPDATE mobile_user
-               SET distance_travelled=%s
-               WHERE id=%s
-            """, (total, id))
+        print(Colour.RED + "=================================================" + Colour.END)
 
-    rdsConn.commit()
+        cursor4.execute("""
+                   UPDATE mobile_user
+                   SET distance_travelled=%s
+                   WHERE id=%s
+                """, (total, id))
+
+        rdsConn.commit()
 rdsConn.close()
 
